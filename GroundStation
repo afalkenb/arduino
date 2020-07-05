@@ -1,1 +1,13 @@
 //GroundStation Code
+
+void setup() {
+
+  const int StartButtonPin = 3;
+  const int EmerButtonPin = 4;
+  
+  //start and turn on brush
+  
+  CDR_Code()
+  
+  
+  }
