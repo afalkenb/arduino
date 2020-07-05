@@ -1,18 +1,23 @@
+#include <LIDARLite_v4LED.h>
+#include <SparkFun_TB6612.h>
+
 unsigned long currentTime, previousTime;
 double elapsedTime;
 double error;
 double lastError;
 double input, output, setPoint;
 double cumError, rateError;
-double proximity //proximity sensor
-double tension //tension sensor reading
-double inHeight //input height
-double encoderL //Left Encoder Reading
-double encoderR //Right Encoder Reading
+double proximity; //proximity sensor
+double tension; //tension sensor reading
+double inHeight; //input height
+double encoderL; //Left Encoder Reading
+double encoderR; //Right Encoder Reading
 
 void setup() {
   // put your setup code here, to run once:
-  setPoint = 0;
+  setPointL = motor1.drive(100);
+  setPointR = motor2.drive(100);
+  
   pinMode(proximity, INPUT)
   pinMode(tension, INPUT)
   pinMode(encoder_L, INPUT)
@@ -20,19 +25,23 @@ void setup() {
   pinMode(ldr_L, INPUT)
   pinMode(ldr_R, INPUT)
 
-  motor1.drive() //input voltage for left
-  motor2.drive() //input voltage for right
+  double proximity;
+  double encoder_L;
+  double encoder_R;
+  double ldr_L;
+  double ldr_R;
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  double altimeter;
-  double encoder_L;
-  double encoder_R;
-
+  // put your main code here, to run repeatedly
   encoderL = analogRead(encoderL) //reads left encoder
   encoderR = analogRead(encoderR) //reads right encoder
   proximity = analogRead(proximity) //reads proximity sensor
+
+  
+  ldr_L = myLidarLite.readDistance() //reads relation to each cart
+  ldr_R = myLidarLite.readDistance() //reads relation to each cart
+  //NOTE: READ THE LIBRARY CODE 
 
   encoder_L = encoderL/24.446; //converts encoder count to distance in inches
   encoder_R = encoderR/24.446; //converts encoder count to distance in inches
@@ -41,8 +50,19 @@ void loop() {
   // checks to see if the device is close to the top of the turbine
   {
     tight = tightenFunction();
-    output_left = climbingFunction_left(proximity, encoder_distL);
-    output_right = climbingFunction_right(proximity, encoder_distR):
+    if (ldr_L < distance)
+    {
+      left(Motor left, Motor right, int speed);
+    }
+    else if (ldr_R < distance)
+    {
+      right(Motor left, Motor right, int speed);
+    }
+    else
+    {
+      output_left = climbingFunction_left(proximity, encoder_distL);
+      output_right = climbingFunction_right(proximity, encoder_distR):
+    }
     analogWrite(3, output_left);
     analogWrite(5, output_right);
   }
@@ -52,7 +72,7 @@ void loop() {
   }
 }
 
-double climbingFunction_left(double altimeter, double encoderL){
+double climbingFunction_left(double proximity, double encoderL){
     if altimeter < inHeight && encoder < inHeight
       input = analogRead(//pin#);
       output = computePID_left(input);
@@ -66,7 +86,7 @@ double climbingFunction_left(double altimeter, double encoderL){
 double computePID_left(double inp){
   currentTime = millis();
   elapsedTime = (double)(currentTime - previousTime);
-  error = setPoint - inp;
+  error = setPointL - inp;
   cumError += error*elapsedTime;
   rateError = (error-lastError)/elapsedTime;
 
@@ -77,7 +97,7 @@ double computePID_left(double inp){
   return out;
 }
 
-double climbingFunction_right(double altimeter, double encoderR){
+double climbingFunction_right(double proximity, double encoderR){
     if altimeter < inHeight && encoder < inHeight
       input = analogRead(//pin#);
       output = computePID_left(input);
@@ -91,7 +111,7 @@ double climbingFunction_right(double altimeter, double encoderR){
 double computePID_right(double inp){
   currentTime = millis();
   elapsedTime = (double)(currentTime - previousTime);
-  error = setPoint - inp;
+  error = setPointR - inp;
   cumError += error*elapsedTime;
   rateError = (error-lastError)/elapsedTime;
 
@@ -100,4 +120,8 @@ double computePID_right(double inp){
   previousTime = currentTime;
 
   return out;
+}
+
+double tightenFunction{
+
 }
