@@ -1,5 +1,3 @@
-///this is elma testing if github works like i think it does
-
 double kp =;
 double ki =;
 double kd =;
@@ -11,10 +9,10 @@ double lastError;
 double input, output, setPoint;
 double cumError, rateError
 const int buttonPin = 3;
-double altimeter
-double tension
+double altimeter = ;
+double tension = ;
 double inHeight
-double encoder
+double encoder =;
 
 void setup() {
   // put your setup code here, to run once:
