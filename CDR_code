@@ -1,84 +1,66 @@
-double kp =;
-double ki =;
-double kd =;
-
 unsigned long currentTime, previousTime;
 double elapsedTime;
 double error;
 double lastError;
 double input, output, setPoint;
-double cumError, rateError
-const int buttonPin = 3;
-double altimeter = ;
-double tension = ;
-double inHeight
-double encoder =;
+double cumError, rateError;
+double proximity //proximity sensor
+double tension //tension sensor reading
+double inHeight //input height
+double encoderL //Left Encoder Reading
+double encoderR //Right Encoder Reading
 
 void setup() {
   // put your setup code here, to run once:
   setPoint = 0;
-  pinMode(buttonPin, INPUT)
-  pinMode(altimeter, INPUT)
+  pinMode(proximity, INPUT)
   pinMode(tension, INPUT)
-  pinMode(encoder, INPUT)
-  pinMode(ldr, INPUT
-  printf("What height is your tower?")
-  scanf("Please input tower height: %f", inHeight)
-  
+  pinMode(encoder_L, INPUT)
+  pinMode(encoder_R, INPUT
+  pinMode(ldr_L, INPUT)
+  pinMode(ldr_R, INPUT)
+
+  motor1.drive() //input voltage for left
+  motor2.drive() //input voltage for right
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int buttonState;
   double altimeter;
-  double encoder;
-  buttonState = digitalRead(buttonPin)
-  altimeter = analogRead(altimeter)
-  encoder = analogRead(encoder)
+  double encoder_L;
+  double encoder_R;
+
+  encoderL = analogRead(encoderL) //reads left encoder
+  encoderR = analogRead(encoderR) //reads right encoder
+  proximity = analogRead(proximity) //reads proximity sensor
+
+  encoder_L = encoderL/24.446; //converts encoder count to distance in inches
+  encoder_R = encoderR/24.446; //converts encoder count to distance in inches
   
-  if (buttonPin == LOW)
+  if (proximity > distance && (encoder_L < inHeight || encoder_R < inHeight))
+  // checks to see if the device is close to the top of the turbine
   {
-    if (altimeter < inHeight && encoder < inHeight)
-    {
-      tight = tightenFunction();
-      output_left = climbingFunction_left();
-      output_right = climbingFunction_right():
-      spray = sprayFunction();
-      delay(100)
-      analogWrite(3, output_left);
-      analogWrite(5, output_right);
-    }
-    else if (altimeter >= inHeight || encoder >= inHeight)
-    {
-      sprayDown()
-    }
+    tight = tightenFunction();
+    output_left = climbingFunction_left(proximity, encoder_distL);
+    output_right = climbingFunction_right(proximity, encoder_distR):
+    analogWrite(3, output_left);
+    analogWrite(5, output_right);
+  }
+  else if (proximity <= distance && (encoder_L >= inHeight || encoder_R >= inHeight)
+  {
+      spraydown()
   }
 }
 
-double tightenFunction(){
-  input = analogRead(//pin#)
-  tension = analogRead(tension)
-  if tension < 2000
-  {
-    output = tighten(tension)
-    return output
-  } 
-  else if tension > 2000;
-  {
-    output = loosen(tension)
-    return output
-  }
-  else
-  {
-    return 0
-  } 
-
-}
-
-double climbingFunction_left(){
-    input = analogRead(//pin#);
-    output = computePID_left(input);
-    return output
+double climbingFunction_left(double altimeter, double encoderL){
+    if altimeter < inHeight && encoder < inHeight
+      input = analogRead(//pin#);
+      output = computePID_left(input);
+      return output
+    else
+    {
+      return 0
+    }
 }
 
 double computePID_left(double inp){
@@ -95,10 +77,15 @@ double computePID_left(double inp){
   return out;
 }
 
-double climbingFunction_right(){
-    input = analogRead(//pin#);
-    output = computePID_right(input);
-    return output
+double climbingFunction_right(double altimeter, double encoderR){
+    if altimeter < inHeight && encoder < inHeight
+      input = analogRead(//pin#);
+      output = computePID_left(input);
+      return output
+    else
+    {
+      return 0
+    }
 }
 
 double computePID_right(double inp){
@@ -113,15 +100,4 @@ double computePID_right(double inp){
   previousTime = currentTime;
 
   return out;
-}
-
-double tighten(){
-  
-}
-
-double loosen(){
-
-}
-double sprayFunction(){
-  
 }
