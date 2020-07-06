@@ -9,14 +9,26 @@ double input, output, setPoint;
 double cumError, rateError;
 double proximity; //proximity sensor
 double tension; //tension sensor reading
-double inHeight; //input height
+double distance; //input height
 double encoderL; //Left Encoder Reading
 double encoderR; //Right Encoder Reading
+int oldtime;
+int newtime;
+double pastencoderLpos;
+double pastencoderRpos;
+double proximity;
+double encoder_L;
+double encoder_R;
+double ldr_L;
+double ldr_R;
 
 void setup() {
   // put your setup code here, to run once:
   setPointL = motor1.drive(100);
   setPointR = motor2.drive(100);
+  pastencoderLpos = 0;
+  pastencoderRpos = 0;
+  oldtime = 0;
   
   pinMode(proximity, INPUT)
   pinMode(tension, INPUT)
@@ -24,12 +36,6 @@ void setup() {
   pinMode(encoder_R, INPUT
   pinMode(ldr_L, INPUT)
   pinMode(ldr_R, INPUT)
-
-  double proximity;
-  double encoder_L;
-  double encoder_R;
-  double ldr_L;
-  double ldr_R;
 }
 
 void loop() {
@@ -45,38 +51,49 @@ void loop() {
 
   encoder_L = encoderL/24.446; //converts encoder count to distance in inches
   encoder_R = encoderR/24.446; //converts encoder count to distance in inches
+
+  newtime = millis();
+
+  speedL = (encoder_L - pastencoderLpos)*1000 / (newtime - oldtime); //calculated speed in in/s
+  speedR = (encoder_R - pastencoderRpos)*1000 / (newtime - oldtime); //calculated speed in in/s
+
+  oldtime = newtime;
+  pastencoderLpos = encoder_L;
+  pastencoderRpos = encoder_R;
   
-  if (proximity > distance && (encoder_L < inHeight || encoder_R < inHeight))
+  if (proximity > distance)
   // checks to see if the device is close to the top of the turbine
   {
     tight = tightenFunction();
     if (ldr_L < distance)
     {
-      left(Motor left, Motor right, int speed);
+      output_left = left(Motor left, Motor right, int speed);
     }
     else if (ldr_R < distance)
     {
-      right(Motor left, Motor right, int speed);
+      output_right = right(Motor left, Motor right, int speed);
     }
     else
     {
-      output_left = climbingFunction_left(proximity, encoder_distL);
-      output_right = climbingFunction_right(proximity, encoder_distR):
+      output_left = climbingFunction_left(proximity, encoder_distL, speedL);
+      output_right = climbingFunction_right(proximity, encoder_distR, speedR):
     }
     analogWrite(3, output_left);
     analogWrite(5, output_right);
   }
-  else if (proximity <= distance && (encoder_L >= inHeight || encoder_R >= inHeight)
+  else if (proximity <= distance)
   {
-      spraydown()
+      serial.printIn("spraydown.ino")
   }
 }
 
-double climbingFunction_left(double proximity, double encoderL){
-    if altimeter < inHeight && encoder < inHeight
-      input = analogRead(//pin#);
+double climbingFunction_left(double proximity, double encoderL, double speedL){
+    if (proximity > distance) //if the proximity sensor doesn't detect constraint proceed
+    {
+      input = speedL;
       output = computePID_left(input);
       return output
+    }
     else
     {
       return 0
@@ -97,11 +114,13 @@ double computePID_left(double inp){
   return out;
 }
 
-double climbingFunction_right(double proximity, double encoderR){
-    if altimeter < inHeight && encoder < inHeight
-      input = analogRead(//pin#);
+double climbingFunction_right(double proximity, double encoderR, double speedR){
+    if (proximity > distance)
+    {
+      input = speedR;
       output = computePID_left(input);
       return output
+    }
     else
     {
       return 0
