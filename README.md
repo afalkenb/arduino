@@ -1,4 +1,4 @@
-#AMPD SENIOR DESIGN
+# AMPD SENIOR DESIGN
 
 There are four codes for this project. There are 17 arduinos total.
 
@@ -15,7 +15,7 @@ There are four codes for this project. There are 17 arduinos total.
       to all carts and regulating the height of all carts.
 
 3.WinchCart
-      ##HOW MANY CARTS HAVE WINCHESSSSS IS THIS REAL
+      **HOW MANY CARTS HAVE WINCHESSSSS IS THIS REAL**
 
 4.AverageCart
       The average cart is in charge of sensor data, climbing functions, descending 
