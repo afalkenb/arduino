@@ -2,12 +2,45 @@
 
 void setup() {
 
-  const int StartButtonPin = 3;
-  const int EmerButtonPin = 4;
+  const int StartButtonPin = 3;  //start button
+  const int EmerButtonPin = 4;   //emergency button
+
+  pinMode(StartButtonPin, INPUT)
+  pinMode(EmerButtonPin, INPUT)
+  }
+
+void loop() {
+
+  if digitalRead(StartButtonPin == HIGH) {
+    begin()
+  }
   
-  //start and turn on brush
+  if digitalRead(EmerButtonPIN == HIGH) {
   
+    //NEED TO FIGURE OUT HOW TO EMERGENCY POWER OFF HERE
+    //Do we really need this though?? can we just instruct the tecnitian to press the generator power off buttton in an emergency?
+    
+  }
+}
+
+void begin() {
+
+  //Tighten First
+  tightenFunction()
+  
+  //Execute Code that climbs and controls
   CDR_Code()
   
+  //Loosen Here
+  loosenFunction()
   
-  }
+}
+
+
+double tightenFunction{
+
+}
+
+double loosenFunction{
+
+}
