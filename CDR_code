@@ -141,6 +141,3 @@ double computePID_right(double inp){
   return out;
 }
 
-double tightenFunction{
-
-}
