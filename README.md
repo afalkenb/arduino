@@ -1,6 +1,6 @@
 # AMPD SENIOR DESIGN
 
-There are four codes for this project. There are 17 arduinos total.
+There are three codes for this project. There are 17 arduinos total.
 
 **1.GroundStation**
       On 1 Arduino. 
@@ -10,14 +10,13 @@ There are four codes for this project. There are 17 arduinos total.
       the winch at the very end. 
 
 **2.MasterCart**
+      On 1 Arduino.
       This arduino has all the "average cart" code, but is also in charge of 
       receiving the GO signal from the ground station, relaying the GO signal 
-      to all carts and regulating the height of all carts.
-
-**3.WinchCart**
-      **HOW MANY CARTS HAVE WINCHESSSSS IS THIS REAL**
-
-**4.AverageCart**
+      to all carts, **possibly regulating the winch**,  and regulating the height of all carts.
+      
+**3.AverageCart**
+      On 15 Arduinos.
       The average cart is in charge of sensor data, climbing functions, descending 
       functions, monitoring the carts left and right position, spinning its brush,
       
