@@ -30,3 +30,6 @@ There are three codes for this project. There are 17 arduinos total.
 3. emergency stop procedures..... do we need them in the code? I think it is totally fine to 
     just have the technitian push the emergency switch on the generator if something goes wrong
     ...... thoughts??????
+4. I dont know how to made the master cart a "slave" to the ground station and a "master" to all the other carts....
+    could we possibly just have the start button on the master cart itself? no thats kind of dumb. the tech would get 
+    sprayed with water and that is kind of dangerous.
