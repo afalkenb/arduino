@@ -9,7 +9,7 @@ There are three codes for this project. There are 17 arduinos total.
       sends a GO signal to the master cart to start the program, and loosens 
       the winch at the very end. 
 
-**2. MasterCart**
+**2. Winch MasterCart**
       On 1 Arduino.
       This arduino has all the "average cart" code, but is also in charge of 
       receiving the GO signal from the ground station, relaying the GO signal 
@@ -23,13 +23,10 @@ There are three codes for this project. There are 17 arduinos total.
       
       
 ## CURRENT CONSIDERATIONS 
-1. how many carts have winches?
-2. right now (7/8/2020) in terms of the code, the water is not in the code at all. 
+- right now (7/8/2020) in terms of the code, the water is not in the code at all. 
     I think a good plan for this is jsut to have the technitian turn on the water by just
     pushing the button on the pump.... thats easier for me at least.
-3. emergency stop procedures..... do we need them in the code? I think it is totally fine to 
+- emergency stop procedures..... do we need them in the code? I think it is totally fine to 
     just have the technitian push the emergency switch on the generator if something goes wrong
     ...... thoughts??????
-4. I dont know how to made the master cart a "slave" to the ground station and a "master" to all the other carts....
-    could we possibly just have the start button on the master cart itself? no thats kind of dumb. the tech would get 
-    sprayed with water and that is kind of dangerous.
+
