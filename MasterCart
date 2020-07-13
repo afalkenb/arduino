@@ -5,4 +5,183 @@ This code is a copy of the average cart's code with the ADDITION of
      telling all carts to begin the protocol AND 
      regulating the heights of all carts. 
 *************************
+  
+#include <LIDARLite_v4LED.h>
+#include <SparkFun_TB6612.h>
+#include <Wire.h>
+
+unsigned long currentTime, previousTime;
+double elapsedTime;
+double error;
+double lastError;
+double input, output, setPoint;
+double cumError, rateError;
+double proximity; //proximity sensor
+double tension; //tension sensor reading
+double distance; //input height
+double encoderL; //Left Encoder Reading
+double encoderR; //Right Encoder Reading
+int oldtime;
+int newtime;
+double pastencoderLpos;
+double pastencoderRpos;
+double prox_top;
+double prox_bot;
+double proximity_top;
+double proximity_bot;
+double encoder_L;
+double encoder_R;
+double ldr_L;
+double ldr_R;
+
+void setup() {
+  // put your setup code here, to run once:
+  
+  //I2C Master Setup
+  Wire.begin();
+  
+  //H-bridge Setup
+  setPointL = motor1.drive(100);
+  setPointR = motor2.drive(100);
+  pastencoderLpos = 0;
+  pastencoderRpos = 0;
+  oldtime = 0;
+  
+  //Initialize Pins
+  prox_top= ;
+  prox_bot = ;
+  ldr_L = ;
+  ldr_R = ;
+  tension = ; 
+  encoder_L = ;
+  encoder_R = ;
+  
+  pinMode(prox_top, INPUT)
+  pinMode(prox_bot, INPUT)
+  pinMode(tension, INPUT)
+  pinMode(encoder_L, INPUT)
+  pinMode(encoder_R, INPUT
+  pinMode(ldr_L, INPUT)
+  pinMode(ldr_R, INPUT)
+  
+  //Initialize Tensions From Every Cart
+  t1 = ;
+  t2 = ;
+  t3 = ;
+  t4 = ;
+  t5 = ;
+  t6 = ;
+  t7 = ;
+  t8 = ;
+  t9 = ;
+  t10 = ;
+  t11 = ;
+  t12 = ;
+  t13 = ;
+  t14 = ;
+  t15 = ;
+  t16 = ;
+}
+
+void loop() {
+  // put your main code here, to run repeatedl
+  
+  //Read Sensors
+  encoderL = analogRead(encoder_L) //reads left encoder
+  encoderR = analogRead(encoder_R) //reads right encoder
+  proximity_top = analogRead(proximity_top) //reads proximity sensor
+  ldr_L = myLidarLite.readDistance() //reads relation to each cart
+  ldr_R = myLidarLite.readDistance() //reads relation to each cart
+
+  encoder_L = encoderL/24.446; //converts encoder count to distance in inches
+  encoder_R = encoderR/24.446; //converts encoder count to distance in inches
+
+  newtime = millis();
+
+  speedL = (encoder_L - pastencoderLpos)*1000 / (newtime - oldtime); //calculated speed in in/s
+  speedR = (encoder_R - pastencoderRpos)*1000 / (newtime - oldtime); //calculated speed in in/s
+
+  oldtime = newtime;
+  pastencoderLpos = encoder_L;
+  pastencoderRpos = encoder_R;
+  
+  if (prox_top > distance)
+  // checks to see if the device is close to the top of the turbine
+  {
+    tight = tightenFunction();
+    if (ldr_L < distance)
+    {
+      output_left = left(Motor left, Motor right, int speed);
+    }
+    else if (ldr_R < distance)
+    {
+      output_right = right(Motor left, Motor right, int speed);
+    }
+    else
+    {
+      output_left = climbingFunction_left(proximity, encoder_distL, speedL);
+      output_right = climbingFunction_right(proximity, encoder_distR, speedR):
+    }
+    analogWrite(3, output_left);
+    analogWrite(5, output_right);
+  }
+  else if (proximity <= distance)
+  {
+      serial.printIn("spraydown.ino")
+  }
+}
+
+double climbingFunction_left(double proximity, double encoderL, double speedL){
+    if (proximity > distance) //if the proximity sensor doesn't detect constraint proceed
+    {
+      input = speedL;
+      output = computePID_left(input);
+      return output
+    }
+    else
+    {
+      return 0
+    }
+}
+
+double computePID_left(double inp){
+  currentTime = millis();
+  elapsedTime = (double)(currentTime - previousTime);
+  error = setPointL - inp;
+  cumError += error*elapsedTime;
+  rateError = (error-lastError)/elapsedTime;
+
+  double out = kp*error + ki*cumError + kd*rateError;
+  lastError = error;
+  previousTime = currentTime;
+
+  return out;
+}
+
+double climbingFunction_right(double proximity, double encoderR, double speedR){
+    if (proximity > distance)
+    {
+      input = speedR;
+      output = computePID_left(input);
+      return output
+    }
+    else
+    {
+      return 0
+    }
+}
+
+double computePID_right(double inp){
+  currentTime = millis();
+  elapsedTime = (double)(currentTime - previousTime);
+  error = setPointR - inp;
+  cumError += error*elapsedTime;
+  rateError = (error-lastError)/elapsedTime;
+
+  double out = kp*error + ki*cumError + kd*rateError;
+  lastError = error;
+  previousTime = currentTime;
+
+  return out;
+}
 
