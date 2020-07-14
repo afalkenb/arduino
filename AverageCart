@@ -1,5 +1,6 @@
 #include <LIDARLite_v4LED.h>
 #include <SparkFun_TB6612.h>
+#include <Wire.h>
 
 unsigned long currentTime, previousTime;
 double elapsedTime;
@@ -16,7 +17,10 @@ int oldtime;
 int newtime;
 double pastencoderLpos;
 double pastencoderRpos;
-double proximity;
+double prox_top;
+double prox_bot;
+double proximity_top;
+double proximity_bot;
 double encoder_L;
 double encoder_R;
 double ldr_L;
@@ -24,13 +28,30 @@ double ldr_R;
 
 void setup() {
   // put your setup code here, to run once:
+  
+  //I2C Slave Setup
+  //This is the 1st slave so it is Wire.begin(1). Slave 2 would have Wire.begin(2)
+  Wire.begin(1);
+  Wire.send(t1);
+  
+  //H-bridge Setup
   setPointL = motor1.drive(100);
   setPointR = motor2.drive(100);
   pastencoderLpos = 0;
   pastencoderRpos = 0;
   oldtime = 0;
   
-  pinMode(proximity, INPUT)
+  //Initialize Pins
+  prox_top= ;
+  prox_bot = ;
+  ldr_L = ;
+  ldr_R = ;
+  tension = ; 
+  encoder_L = ;
+  encoder_R = ;
+  
+  pinMode(prox_top, INPUT)
+  pinMode(prox_bot, INPUT)
   pinMode(tension, INPUT)
   pinMode(encoder_L, INPUT)
   pinMode(encoder_R, INPUT
@@ -39,15 +60,14 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly
-  encoderL = analogRead(encoderL) //reads left encoder
-  encoderR = analogRead(encoderR) //reads right encoder
-  proximity = analogRead(proximity) //reads proximity sensor
-
+  // put your main code here, to run repeatedl
   
+  //Read Sensors
+  encoderL = analogRead(encoder_L) //reads left encoder
+  encoderR = analogRead(encoder_R) //reads right encoder
+  proximity_top = analogRead(proximity_top) //reads proximity sensor
   ldr_L = myLidarLite.readDistance() //reads relation to each cart
   ldr_R = myLidarLite.readDistance() //reads relation to each cart
-  //NOTE: READ THE LIBRARY CODE 
 
   encoder_L = encoderL/24.446; //converts encoder count to distance in inches
   encoder_R = encoderR/24.446; //converts encoder count to distance in inches
@@ -61,7 +81,7 @@ void loop() {
   pastencoderLpos = encoder_L;
   pastencoderRpos = encoder_R;
   
-  if (proximity > distance)
+  if (prox_top > distance)
   // checks to see if the device is close to the top of the turbine
   {
     tight = tightenFunction();
@@ -140,4 +160,3 @@ double computePID_right(double inp){
 
   return out;
 }
-
