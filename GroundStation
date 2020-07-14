@@ -12,28 +12,7 @@ void setup() {
 void loop() {
 
   if digitalRead(StartButtonPin == HIGH) {
-    begin()
+    MasterCart()
   }
 }
 
-void begin() {
-
-  //Tighten First
-  tightenFunction()
-  
-  //Execute Code that climbs and controls
-  MasterCart()
-  
-  //Loosen Here
-  loosenFunction()
-  
-}
-
-
-double tightenFunction{
-
-}
-
-double loosenFunction{
-
-}
