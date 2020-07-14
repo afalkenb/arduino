@@ -39,6 +39,7 @@ void setup() {
   
   //I2C Master Setup
   Wire.begin();
+  Serial.begin(9600);
   
   //H-bridge Setup
   setPointL = motor1.drive(100);
@@ -48,13 +49,13 @@ void setup() {
   oldtime = 0;
   
   //Initialize Pins
-  prox_top= ;
-  prox_bot = ;
-  ldr_L = ;
-  ldr_R = ;
-  tension = ; 
-  encoder_L = ;
-  encoder_R = ;
+  prox_top= 13;
+  prox_bot = 12;
+  ldr_L = 14;
+  ldr_R = 16;
+  encoder_L = 46;
+  encoder_R = 48;
+  tension = 31; 
   
   pinMode(prox_top, INPUT)
   pinMode(prox_bot, INPUT)
@@ -63,52 +64,44 @@ void setup() {
   pinMode(encoder_R, INPUT
   pinMode(ldr_L, INPUT)
   pinMode(ldr_R, INPUT)
-  
-  //Initialize Tensions From Every Cart
-  t1 = ;
-  t2 = ;
-  t3 = ;
-  t4 = ;
-  t5 = ;
-  t6 = ;
-  t7 = ;
-  t8 = ;
-  t9 = ;
-  t10 = ;
-  t11 = ;
-  t12 = ;
-  t13 = ;
-  t14 = ;
-  t15 = ;
-  t16 = ;
+
 }
 
 void loop() {
   // put your main code here, to run repeatedl
   
-  //Read Sensors
-  encoderL = analogRead(encoder_L) //reads left encoder
-  encoderR = analogRead(encoder_R) //reads right encoder
-  proximity_top = analogRead(proximity_top) //reads proximity sensor
-  ldr_L = myLidarLite.readDistance() //reads relation to each cart
-  ldr_R = myLidarLite.readDistance() //reads relation to each cart
-
+  //Read Encoder and get Speed
+  encoder_L = analogRead(encoder_L) //reads left encoder
+  encoder_R = analogRead(encoder_R) //reads right encoder
   encoder_L = encoderL/24.446; //converts encoder count to distance in inches
   encoder_R = encoderR/24.446; //converts encoder count to distance in inches
-
   newtime = millis();
-
   speedL = (encoder_L - pastencoderLpos)*1000 / (newtime - oldtime); //calculated speed in in/s
   speedR = (encoder_R - pastencoderRpos)*1000 / (newtime - oldtime); //calculated speed in in/s
-
   oldtime = newtime;
   pastencoderLpos = encoder_L;
   pastencoderRpos = encoder_R;
   
+  //Read Other Sensors
+  proximity_top = analogRead(proximity_top) //reads proximity sensor
+  ldr_L = myLidarLite.readDistance() //reads relation to each cart
+  ldr_R = myLidarLite.readDistance() //reads relation to each cart
+  
+  distance = 1; //device should stop when it is 1m from the top of tower
   if (prox_top > distance)
   // checks to see if the device is close to the top of the turbine
   {
-    tight = tightenFunction();
+  
+    destens = 1975; 
+    if (tension > destens)
+    {
+       tightenFunction();
+    }
+   else if (tension < destens)
+   {
+        loosenFunction();
+   }
+   
     if (ldr_L < distance)
     {
       output_left = left(Motor left, Motor right, int speed);
@@ -183,5 +176,41 @@ double computePID_right(double inp){
   previousTime = currentTime;
 
   return out;
+}
+
+void begin() {
+
+  //Tighten First
+  tightenFunction()
+  
+  //Execute Code that climbs and controls for the 14 AverageCarts
+  AverageCart1()
+  AverageCart2()
+  AverageCart3()
+  AverageCart4()
+  AverageCart5()
+  AverageCart6()
+  AverageCart7()
+  AverageCart8()
+  AverageCart9()
+  AverageCart20()
+  AverageCart11()
+  AverageCart12()
+  AverageCart13()
+  AverageCart14()
+  AverageCart15()
+  
+  //Loosen Here
+  loosenFunction()
+  
+}
+
+
+double tightenFunction{
+
+}
+
+double loosenFunction{
+
 }
 
