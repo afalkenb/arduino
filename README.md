@@ -3,20 +3,20 @@
 There are three codes for this project. There are 17 arduinos total.
 
 **1. GroundStation**
-      On 1 Arduino. 
+      On 1 Arduino Uno. 
       Arduino is hooked to a start button and emergency stop button.
       Ground station tightens the winch at the beggining of the program,
       sends a GO signal to the master cart to start the program, and loosens 
       the winch at the very end. 
 
 **2. Winch MasterCart**
-      On 1 Arduino.
+      On 1 Arduino Mega.
       This arduino has all the "average cart" code, but is also in charge of 
       receiving the GO signal from the ground station, relaying the GO signal 
       to all carts, **possibly regulating the winch**,  and regulating the height of all carts.
       
 **3. AverageCart**
-      On 15 Arduinos.
+      On 15 Arduino Megas.
       The average cart is in charge of sensor data, climbing functions, descending 
       functions, monitoring the carts left and right position, spinning its brush,
       
@@ -29,4 +29,5 @@ There are three codes for this project. There are 17 arduinos total.
 - emergency stop procedures..... do we need them in the code? I think it is totally fine to 
     just have the technitian push the emergency switch on the generator if something goes wrong
     ...... thoughts??????
+- need to have a good tension "region"... like if the desired tension is 1975, 1972-1978 is acceptable... this is seen in the MasterCart code
 
