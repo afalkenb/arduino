@@ -33,6 +33,8 @@ double encoder_L;
 double encoder_R;
 double ldr_L;
 double ldr_R;
+int start;
+int firsttime;
 
 void setup() {
   // put your setup code here, to run once:
@@ -56,6 +58,7 @@ void setup() {
   encoder_L = 46;
   encoder_R = 48;
   tension = 31; 
+  start = 0;
   
   pinMode(prox_top, INPUT)
   pinMode(prox_bot, INPUT)
@@ -69,6 +72,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedl
+  
+  //If The Program Just Started, Start the 15 Average Carts
+  if (firsttime == 1)
+  {
+     begin(); 
+     firsttime = 0;
+  }
   
   //Read Encoder and get Speed
   encoder_L = analogRead(encoder_L) //reads left encoder
@@ -180,25 +190,26 @@ double computePID_right(double inp){
 
 void begin() {
 
-  //Tighten First
+  //Tighten First 
   tightenFunction()
   
+  start = 1;
   //Execute Code that climbs and controls for the 14 AverageCarts
-  AverageCart1()
-  AverageCart2()
-  AverageCart3()
-  AverageCart4()
-  AverageCart5()
-  AverageCart6()
-  AverageCart7()
-  AverageCart8()
-  AverageCart9()
-  AverageCart20()
-  AverageCart11()
-  AverageCart12()
-  AverageCart13()
-  AverageCart14()
-  AverageCart15()
+  AverageCart1(int start);
+  AverageCart2(int start);
+  AverageCart3(int start);
+  AverageCart4(int start);
+  AverageCart5(int start);
+  AverageCart6(int start);
+  AverageCart7(int start);
+  AverageCart8(int start);
+  AverageCart9(int start);
+  AverageCart20(int start);
+  AverageCart11(int start);
+  AverageCart12(int start);
+  AverageCart13(int start);
+  AverageCart14(int start);
+  AverageCart15(int start);
   
   //Loosen Here
   loosenFunction()
@@ -207,10 +218,10 @@ void begin() {
 
 
 double tightenFunction{
-
+     //Speaking with Prof. Bae About These Issues
 }
 
 double loosenFunction{
-
+     //Speaking with Prof. Bae About These Issues
 }
 
