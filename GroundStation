@@ -1,7 +1,7 @@
 //GroundStation Code
 
 const int StartButtonPin;
-int first;
+int first; //tells the Winch Arduino that the program has started
 
 void setup() {
 
