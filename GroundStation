@@ -1,10 +1,12 @@
 //GroundStation Code
 
+const int StartButtonPin;
+int first;
+
 void setup() {
 
-  const int StartButtonPin = 3;  //start button
- 
-
+  first = 1; 
+  StartButtonPin = 3;  //start button
   pinMode(StartButtonPin, INPUT)
   
   }
@@ -12,7 +14,7 @@ void setup() {
 void loop() {
 
   if digitalRead(StartButtonPin == HIGH) {
-    MasterCart()
+    MasterCart(int first)
   }
 }
 
