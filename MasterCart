@@ -3,7 +3,7 @@ This code is for the master cart.
 The master cart houses the master arduino. 
 This code is a copy of the average cart's code with the ADDITION of 
      telling all carts to begin the protocol AND 
-     regulating the heights of all carts. 
+     controlling the winch. 
 *************************
   
 #include <LIDARLite_v4LED.h>
@@ -25,16 +25,19 @@ int oldtime;
 int newtime;
 double pastencoderLpos;
 double pastencoderRpos;
-double prox_top;
-double prox_bot;
+double prox_top = 13;
+double prox_bot = 12;
 double proximity_top;
 double proximity_bot;
-double encoder_L;
-double encoder_R;
-double ldr_L;
-double ldr_R;
-int start;
+double encoder_L = 46;
+double encoder_R = 48;
+double ldr_L = 14;
+double ldr_R = 16;
+double tension = 31:
+int start = 0;
 int firsttime;
+int tighten;  
+int loosen;
 
 void setup() {
   // put your setup code here, to run once:
@@ -50,16 +53,6 @@ void setup() {
   pastencoderRpos = 0;
   oldtime = 0;
   
-  //Initialize Pins
-  prox_top= 13;
-  prox_bot = 12;
-  ldr_L = 14;
-  ldr_R = 16;
-  encoder_L = 46;
-  encoder_R = 48;
-  tension = 31; 
-  start = 0;
-  
   pinMode(prox_top, INPUT)
   pinMode(prox_bot, INPUT)
   pinMode(tension, INPUT)
@@ -67,13 +60,15 @@ void setup() {
   pinMode(encoder_R, INPUT
   pinMode(ldr_L, INPUT)
   pinMode(ldr_R, INPUT)
+  pinMode(tighten, INPUT);
+  pinMode(loosen, INPUT);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedl
   
-  //If The Program Just Started, Start the 15 Average Carts
+  //If The Program Just Started, tighten the winch and Start the 15 Average Carts
   if (firsttime == 1)
   {
      begin(); 
@@ -132,6 +127,9 @@ void loop() {
   {
       serial.printIn("spraydown.ino")
   }
+  
+  // if at the very bottom, do the loosen function
+  
 }
 
 double climbingFunction_left(double proximity, double encoderL, double speedL){
@@ -210,18 +208,29 @@ void begin() {
   AverageCart13(int start);
   AverageCart14(int start);
   AverageCart15(int start);
-  
-  //Loosen Here
-  loosenFunction()
+
   
 }
 
 
 double tightenFunction{
-     //Speaking with Prof. Bae About These Issues
+    //Winch controls modeled using an ON-OF-ON toggle switch 
+    
+    while (tension < desiredten)
+          tighten == HIGH
+    end
+    
+    tighten == LOW
+          
 }
 
 double loosenFunction{
-     //Speaking with Prof. Bae About These Issues
+     //Winch controls modeled using an ON-OF-ON toggle switch 
+     
+     while (tension < desiredten)
+          loosen == HIGH
+     end
+     
+     loosen == LOW
 }
 
