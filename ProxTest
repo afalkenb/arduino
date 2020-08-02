@@ -1,0 +1,22 @@
+ //ProxTest
+ //The analog voltage out will range from 3V when an object is only 4" (10 cm) away and 0.4V when the object is 32" (80 cm) away
+ 
+double prox= 13;
+double proxvoltage; 
+double dist;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(prox, INPUT)
+  }
+  
+  void loop() {
+  // put your main code here, to run repeatedly
+  
+    proxvoltage = analogRead(prox)
+    dist = (proxvoltage - 3) * (-70 / 2.6);
+    
+    Serial.print(dist)
+    
+    delay(200)
+    }
