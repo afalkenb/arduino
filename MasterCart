@@ -27,8 +27,6 @@ double pastencoderLpos;
 double pastencoderRpos;
 double prox_top = 13;
 double prox_bot = 12;
-double proximity_top;
-double proximity_bot;
 double encoder_L = 46;
 double encoder_R = 48;
 double ldr_L = 14;
@@ -66,7 +64,7 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedl
+  // put your main code here, to run repeatedly
   
   //If The Program Just Started, tighten the winch and Start the 15 Average Carts
   if (firsttime == 1)
@@ -88,7 +86,7 @@ void loop() {
   pastencoderRpos = encoder_R;
   
   //Read Other Sensors
-  proximity_top = analogRead(proximity_top) //reads proximity sensor
+  proximity_top = analogRead(prox_top) //reads proximity sensor
   ldr_L = myLidarLite.readDistance() //reads relation to each cart
   ldr_R = myLidarLite.readDistance() //reads relation to each cart
   
@@ -124,11 +122,35 @@ void loop() {
     analogWrite(5, output_right);
   }
   else if (proximity <= distance)
+  //If we have reached the top of the tower and want to decend
   {
-      serial.printIn("spraydown.ino")
+     //still control for left and right distances
+       if (ldr_L < distance)
+    {
+      output_left = left(Motor left, Motor right, int speed * -1);
+    }
+    else if (ldr_R < distance)
+    {
+      output_right = right(Motor left, Motor right, int speed * -1);
+    }
+    //desend tower ( * -1 allows H-bridge to operate motors the opposite direction)
+    else
+    {
+      output_left = climbingFunction_left(proximity, encoder_distL, speedL * -1);
+      output_right = climbingFunction_right(proximity, encoder_distR, speedR * -1):
+    }
+    analogWrite(3, output_left);
+    analogWrite(5, output_right);
+    //set distance = 0 in this case because the system arrived at bottom of tower
+    distance == 0;
   }
   
-  // if at the very bottom, do the loosen function
+  // if at the very bottom, do the loosen function and end program
+  else if (distance == 0) 
+  {
+       loosenFunction(0);
+       return; 
+  }
   
 }
 
@@ -139,6 +161,7 @@ double climbingFunction_left(double proximity, double encoderL, double speedL){
       output = computePID_left(input);
       return output
     }
+    
     else
     {
       return 0
@@ -185,7 +208,7 @@ double computePID_right(double inp){
 
   return out;
 }
-
+ 
 void begin() {
 
   //Tighten First 
@@ -208,12 +231,10 @@ void begin() {
   AverageCart13(int start);
   AverageCart14(int start);
   AverageCart15(int start);
-
-  
 }
 
 
-double tightenFunction{
+double tightenFunction(int desiredten){
     //Winch controls modeled using an ON-OF-ON toggle switch 
     
     while (tension < desiredten)
@@ -224,7 +245,7 @@ double tightenFunction{
           
 }
 
-double loosenFunction{
+double loosenFunction (int desiredten{
      //Winch controls modeled using an ON-OF-ON toggle switch 
      
      while (tension < desiredten)
