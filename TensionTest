@@ -1,0 +1,21 @@
+//TensionTest
+
+const int tens_out = 33;
+const int tens_sck = 31;
+long tension;
+
+void setup(){
+
+  Serial.begin(57600);
+  scale.begin(tens_out, tens_sck);
+  
+  }
+  
+  void loop(){
+  
+ tension = scale.read();
+ Serial.println(tension);
+ 
+ delay(200)
+ 
+ }
