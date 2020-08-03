@@ -23,7 +23,6 @@ void loop(){
   Serial.print(" Z = ");
   Serial.println(myIMU.readFloatAccelZ(), 4);
 
-  delay(1000);
- delay(200)
+  delay(200)
  
  }
